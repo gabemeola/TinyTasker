@@ -14,7 +14,6 @@ const template = oneLine`
 	}
 	.content {
 		position: relative;
-		width: 60%;
 		height: 100%;
 		margin: 0 auto;
 	}
@@ -23,6 +22,17 @@ const template = oneLine`
 		position: absolute;
 		top: 20px;
 		left: 10px;
+	}
+	.panel {
+		background-color: #fff;
+		border-bottom: 2px solid #e6e6e6;
+		margin: 0 auto;
+		box-sizing: border-box;
+		position: relative;
+		padding: 15px;
+		box-shadow: 0 3px 6px 0 rgba(0,0,0,.16);
+		margin-bottom: 10px;
+		border-radius: 0 0 3px 3px;
 	}
 	.nav {
 		display: flex;
@@ -49,15 +59,17 @@ const template = oneLine`
 </style>
 <div class="main">
 	<div class="header">
-		<div class="content">
+		<div class="content appWidth">
 			<h1 class="text">Tiny Tasker</h1>
 			<nav class="nav">
-				<a class="nav-item active" href="#">Tasks</a>
-				<a class="nav-item" href="#">Settings</a>
+				<a class="nav-item" [routerLink]="['/tasks']" routerLinkActive="active">Tasks</a>
+				<a class="nav-item" [routerLink]="['/settings']" routerLinkActive="active">Settings</a>
 			</nav>
 		</div>
 	</div>
-	<tasks></tasks>
+	<div class="panel appWidth">
+		<router-outlet></router-outlet>
+	</div>
 </div>
 `;
 

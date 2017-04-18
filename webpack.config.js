@@ -32,13 +32,14 @@ module.exports = {
 	},
 	devtool: 'eval-cheap-module-source-map',
 	devServer: { // Allows webpack-dev-server to be live reloaded
-		 contentBase: './src',
-		 //hot: true,
-		 //inline: true,
-		 compress: false,
-		 port: PORT,
-		 host: ADDRESS,
-		 https: isHttps
+		contentBase: './src',
+		historyApiFallback: true,
+		//hot: true,
+		//inline: true,
+		compress: false,
+		port: PORT,
+		host: ADDRESS,
+		https: isHttps
 	},
 	module: {
 		rules: [

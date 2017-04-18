@@ -1,22 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { oneLine } from 'common-tags';
-import axios from 'axios';
+import { StoreService, ApiService } from 'services';
 
 const template = oneLine`
 <style>
-	.panel {
-		background-color: #fff;
-		border-bottom: 2px solid #e6e6e6;
-		width: 60%;
-		margin: 0 auto;
-		box-sizing: border-box;
-		position: relative;
-		padding: 15px;
-		box-shadow: 0 3px 6px 0 rgba(0,0,0,.16);
-		margin-bottom: 10px;
-		border-radius: 0 0 3px 3px;
-	}
 	.form {
 		display: flex;
 		flex-direction: row;
@@ -25,6 +13,10 @@ const template = oneLine`
 		align-content: space-between;
 		flex-wrap: wrap;
 		margin: 20px 0;
+	}
+	.styled-input {
+		flex: 1;
+		min-width: 200px;
 	}
 	.task-items {
 		display: flex;
@@ -44,6 +36,7 @@ const template = oneLine`
 		box-sizing: border-box;
 		background-color: #e6e6e6;
 		border-radius: 3px;
+		border: 2px solid #d0d0d0;
 	}
 	.task-item:hover .task-delete {
 		color: rgb(223, 67, 66);
@@ -53,9 +46,10 @@ const template = oneLine`
 		transition: all .2s ease;
 		color: gray;
 		cursor: pointer;
+		align-self: center;
 	}
 </style>
-<div class="panel">
+<div>
 	<ul class="task-items">
 		<li *ngFor="let task of tasks; let i=index" class="task-item">
 			<span>{{task.task_name}}</span>
@@ -69,7 +63,7 @@ const template = oneLine`
 			<input type="text" name="input" id="task-input" ngModel placeholder="Feed the kids..."/>
 		</div>
 		<div>
-			<button class="styled-button">Add +</button>
+			<button class="styled-button" type="submit">Add +</button>
 		</div>
 	</form>
 </div>
@@ -80,48 +74,52 @@ const template = oneLine`
 	template,
 })
 export class TasksComponent implements OnInit {
-	tasks = [];
+	tasks = this.storeService.get('tasks');
+	noAppId = false;
 
-	addTodo(form: NgForm): void {
+	constructor(private storeService: StoreService, private apiService: ApiService) {};
+
+	addTodo(form: NgForm): any {
+		if(this.storeService.get('application_id') === '') return this.noAppId = true;
+
 		const { input } = form.value;
 		form.reset();
-		axios({
-			method: 'POST',
-			url: 'http://homework.avantlink.com/tasks',
-			headers: {"Application-ID": "50047f1b-23df-11e7-91b6-0ed54c19ffda"},
-			data: {
-				name: input,
-			}
-		}).then((res) => {
-			console.log(res);
-			this.tasks.push(res.data.data);
-		})
+		this.apiService.addTodo(input)
+			.then((res) => {
+				// Add new Task to store
+				this.storeService.set('tasks', [...this.tasks, res.data])
+					// Update our internal store
+					.then((res) => {
+						this.tasks = res.get('tasks')
+					})
+			});
 	}
 
-	deleteTodo(index: number) {
-		console.log('deleting', this.tasks[index].task_id);
-		axios({
-			method: 'DELETE',
-			url: 'http://homework.avantlink.com/tasks',
-			headers: {"Application-ID": "50047f1b-23df-11e7-91b6-0ed54c19ffda"},
-			params: {
-				id: this.tasks[index].task_id
-			}
-		}).then((res) => {
-			console.log(res);
-			this.tasks.splice(index, 1);
-		}).catch((err) => console.warn(err))
+	deleteTodo(index: number): any {
+		if(this.storeService.get('application_id') === '') return this.noAppId = true;
+
+		const { task_id } = this.tasks[index];
+		this.apiService.deleteTodo(task_id)
+			.then((res) => {
+				// Just Remove the Todo at the index
+				this.storeService.set('tasks', this.tasks.filter((s, i) => i !== index))
+					.then((res) => {
+						console.log(res);
+						this.tasks = res.get('tasks')
+					});
+			});
 	}
 
 	ngOnInit() {
-		axios({
-			method: 'GET',
-			url: 'http://homework.avantlink.com/tasks',
-			headers: {"Application-ID": "50047f1b-23df-11e7-91b6-0ed54c19ffda"},
-		}).then((res) => {
-			console.log(res);
-			this.tasks = res.data.data;
-		})
+		this.storeService.debug();
+		// Run if we have an application_id
+		if(this.storeService.get('application_id') !== '') {
+			this.apiService.getTodos()
+				.then((res) => {
+					console.log(res);
+					this.tasks = res.data;
+				});
+		}
 	}
 
 }

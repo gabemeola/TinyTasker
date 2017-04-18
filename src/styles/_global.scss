@@ -16,11 +16,20 @@ a {
 	transform: translateY(-50%);
 }
 
+.appWidth {
+	width: 80%;
+	max-width: 800px;
+
+	@media screen and (max-width: 425px) {
+		width: 95%;
+	}
+}
+
 .styled-button {
 	display: inline-block;
 	width: 150px;
 	height: 45px;
-	margin: 0 auto;
+	margin: 5px auto;
 	background-color: rgb(33, 188, 108);
 	border: none;
 	outline: none;
@@ -43,6 +52,7 @@ a {
 
 .styled-input {
 	position: relative;
+	margin: 5px auto;
 	label {
 		font-weight: 600;
 		margin-bottom: 5px;
@@ -51,13 +61,13 @@ a {
 	i {
 		position: absolute;
 		left: 10px;
-		bottom: 10px;
+		bottom: 12px;
 		font-size: 20px;
 		color: gray;
 	}
 	input {
-		height: 40px;
-		width: 98%;
+		height: 45px;
+		width: 90%;
 		font-size: 16px;
 		padding: 5px 5px 5px 35px;
 		box-sizing: border-box;

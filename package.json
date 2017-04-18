@@ -39,6 +39,7 @@
     "@angular/http": "^4.0.2",
     "@angular/platform-browser": "^4.0.2",
     "@angular/platform-browser-dynamic": "^4.0.2",
+    "@angular/router": "^4.0.2",
     "axios": "^0.16.1",
     "common-tags": "^1.4.0",
     "reflect-metadata": "^0.1.10",

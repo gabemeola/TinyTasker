@@ -30,6 +30,10 @@
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.0.2.tgz#bce01526917a5b49606fc7e81600af85b15846ea"
 
+"@angular/router@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-4.0.2.tgz#e574ee2ce31035c6e574acf28ed9a28bfe1179ef"
+
 "@types/node@*", "@types/node@^6.0.69":
   version "6.0.69"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.69.tgz#82d955985fcad2b95a72fcf5f8ea630d772535a7"
