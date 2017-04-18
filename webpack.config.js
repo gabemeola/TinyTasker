@@ -21,7 +21,8 @@ module.exports = {
 		bundle: [
 			`webpack-dev-server/client?${prefix}//${ADDRESS}:${PORT}`,
 			'webpack/hot/dev-server',
-			'./src/app.ts', // Main App JS File
+			'./src/index.ts', // Main App JS File
+			'./src/styles/index.scss', // Main CSS File
 		]
 	},
 	output: {
@@ -45,6 +46,14 @@ module.exports = {
 				test: /\.tsx?$/,
 				exclude: /node_modules/,
 				loader: 'awesome-typescript-loader',
+			},
+			{ // Converts SCSS to CSS
+				test: /\.scss$/,
+				use: [
+					'style-loader?sourceMap=true',
+					'css-loader?sourceMap=true',
+					'sass-loader?sourceMap=true'
+				],
 			},
 			{ // Loads the font files from imports
 				test:  /\.(ttf|eot|woff(2)?)(\?[a-z0-9]+)?$/,

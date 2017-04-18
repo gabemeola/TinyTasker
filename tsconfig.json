@@ -3,17 +3,21 @@
 		"target": "es5",
 		"module": "es2015",
 		"moduleResolution": "node",
+		"baseUrl": "./src",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
 		"sourceMap": true,
+		"rootDir": "./src",
 		"noEmit": true,
 		"noEmitHelpers": true,
 		"importHelpers": true,
 		"strictNullChecks": false,
 		"lib": [
-			"dom",
-			"es6"
+			"DOM",
+			"es2015",
+			"es2016",
+			"es2017"
 		],
 		"typeRoots": [
 			"node_modules/@types"
