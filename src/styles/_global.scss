@@ -48,6 +48,11 @@ a {
 		box-shadow: inset 0 0 8px 1px grey;
 		transform: scale3d(.97, .97, 1);
 	}
+
+	&:disabled {
+		background-color: #bdbdbd;
+		border-color: #bdbdbd;
+	}
 }
 
 .styled-input {
@@ -80,5 +85,34 @@ a {
 		&:focus, &:active {
 			border-color: #6f6f6f;
 		}
+
+		&:disabled {
+			background-color: #aeaeae;
+		}
+	}
+}
+
+.banner {
+	position: fixed;
+	top: 0;
+	height: 40px;
+	box-sizing: border-box;
+	padding: 0 30px;
+	background-color: rgb(33, 188, 108);
+	box-shadow: 0 3px 6px 0 rgba(0,0,0,.16);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	left: 50%;
+	transform: translate(-50%, -100px);
+	transition: all .2s ease;
+
+	> * {
+		margin: 0 10px;
+	}
+
+	&.active {
+		transform: translate(-50%, 0);
 	}
 }

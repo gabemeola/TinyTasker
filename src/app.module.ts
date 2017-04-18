@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { toArray } from 'utils';
 import * as components from 'components';
 import * as services from 'services';
@@ -10,6 +10,7 @@ import { routing } from 'config/app.routes';
 	imports: [
 		BrowserModule,
 		FormsModule,
+		ReactiveFormsModule,
 		routing
 	],
 	declarations: [

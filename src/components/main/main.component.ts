@@ -67,9 +67,11 @@ const template = oneLine`
 			</nav>
 		</div>
 	</div>
+	
 	<div class="panel appWidth">
 		<router-outlet></router-outlet>
 	</div>
+	
 </div>
 `;
 

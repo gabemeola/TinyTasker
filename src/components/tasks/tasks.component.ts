@@ -48,6 +48,14 @@ const template = oneLine`
 		cursor: pointer;
 		align-self: center;
 	}
+	.add {
+		text-align: center;
+		display: block;
+		color: #bebebe;
+	}
+	.configure {
+		color: #244a8c;
+	}
 </style>
 <div>
 	<ul class="task-items">
@@ -56,14 +64,23 @@ const template = oneLine`
 			<i class="fa fa-times-circle task-delete" (click)="deleteTodo(i)" aria-hidden="true" name="Delete Task" aria-label="Delete Task"></i>
 		</li>
 	</ul>
+	
+	<h3 *ngIf="tasks.length === 0 && storeService.get('application_id') !== ''" class="add">
+		Add Some Tiny Tasks!
+	</h3>
+	<h3 *ngIf="storeService.get('application_id') === ''" class="add configure">
+		<a [routerLink]="['/settings']">Configure Your Tiny Task Settings!</a>
+	</h3>
+	
 	<form #form="ngForm" (ngSubmit)="addTodo(form)" class="form">
 		<div class="styled-input">
 			<label for="task-input">Add A Tiny Task</label>
 			<i class="fa fa-pencil-square" aria-hidden="true"></i>
-			<input type="text" name="input" id="task-input" ngModel placeholder="Feed the kids..."/>
+			<input type="text" name="input" id="task-input" ngModel placeholder="Feed the kids..." required 
+						 [disabled]="storeService.get('application_id') === ''"/>
 		</div>
 		<div>
-			<button class="styled-button" type="submit">Add +</button>
+			<button class="styled-button" type="submit" [disabled]="!form.valid">Add +</button>
 		</div>
 	</form>
 </div>
@@ -75,12 +92,11 @@ const template = oneLine`
 })
 export class TasksComponent implements OnInit {
 	tasks = this.storeService.get('tasks');
-	noAppId = false;
 
 	constructor(private storeService: StoreService, private apiService: ApiService) {};
 
 	addTodo(form: NgForm): any {
-		if(this.storeService.get('application_id') === '') return this.noAppId = true;
+		if(this.storeService.get('application_id') === '') return;
 
 		const { input } = form.value;
 		form.reset();
@@ -96,7 +112,7 @@ export class TasksComponent implements OnInit {
 	}
 
 	deleteTodo(index: number): any {
-		if(this.storeService.get('application_id') === '') return this.noAppId = true;
+		if(this.storeService.get('application_id') === '') return;
 
 		const { task_id } = this.tasks[index];
 		this.apiService.deleteTodo(task_id)

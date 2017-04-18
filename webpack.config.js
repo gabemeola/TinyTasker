@@ -43,7 +43,7 @@ module.exports = {
 	},
 	module: {
 		rules: [
-			{ // Babel loader for converting ES2015 to ES5
+			{ // Typescript Loader
 				test: /\.tsx?$/,
 				exclude: /node_modules/,
 				loader: 'awesome-typescript-loader',
